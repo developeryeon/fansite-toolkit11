@@ -1,13 +1,13 @@
 import axios from 'axios';
 import { login } from '../redux/modules/AuthSlice';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import useForm from '../hooks/useForm';
 
 export default function Login() {
 	const [enterLogin, setEnterLogin] = useState(true);
 
 	const fetchUsers = async () => {
-		const { data } = await axios.get('http://localhost:4001/users');
+		const { data } = await axios.get(`${process.env.REACT_APP_USERS_SERVER_URL}`);
 		console.log('data : ', data);
 		setEnterLogin(data);
 	};
@@ -28,11 +28,6 @@ export default function Login() {
 			return null;
 		}
 	};
-
-	useEffect(() => {
-		//db로부터 값을 가져올 것이다.
-		fetchUsers();
-	}, []);
 
 	return (
 		<div>
