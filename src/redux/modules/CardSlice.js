@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import axios from 'axios';
 import lettersAPI from '../../api/letters';
 
 const initialState = {
@@ -20,7 +19,7 @@ export const __addCards = createAsyncThunk('letters/add', async (payload, thunkA
 export const __getCards = createAsyncThunk('letters/get', async (payload, thunkAPI) => {
 	try {
 		const data = await lettersAPI.get('/letters');
-		return thunkAPI.fulfillWithValue(data);
+		return thunkAPI.fulfillWithValue(data.data);
 	} catch (error) {
 		return thunkAPI.rejectWithValue(error);
 	}

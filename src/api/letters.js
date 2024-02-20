@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 const lettersAPI = axios.create({
-	baseURL: process.env.REACT_APP_LETTERS_SERVER_URL,
+	// baseURL: process.env.REACT_APP_LETTERS_SERVER_URL,
+	baseURL: 'https://moneyfulpublicpolicy.co.kr',
 });
 
 lettersAPI.interceptors.request.use(

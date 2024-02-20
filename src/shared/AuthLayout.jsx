@@ -1,31 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { Navigate, Outlet } from 'react-router-dom';
 
-function AuthLayout() {
-	const [isRendered, setIsRendered] = useState(false);
-	const navigate = useNavigate();
+export default function AuthLayout() {
+	const auth = useSelector((state) => state.AuthSlice.users);
+	const token = localStorage.getItem('accessToken');
 
-	useEffect(() => {
-		const token = localStorage.getItem('accessToken');
-
-		// 토큰이 없는 경우 강제 routing
-		if (!token) {
-			navigate('/login');
-		}
-
-		// 컴포넌트 렌더링!!!
-		setIsRendered(true);
-	}, []);
-
-	if (!isRendered) {
-		return;
+	if (!token) {
+		return <Navigate to={'/login'} />;
+	}
+	if (!auth) {
+		return <Navigate to={'/signup'} />;
 	}
 
 	return (
-		<div>
+		<>
 			<Outlet />
-		</div>
+		</>
 	);
 }
-
-export default AuthLayout;
