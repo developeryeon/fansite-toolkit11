@@ -1,33 +1,56 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import userAPI from '../../api/userAPI';
+import axios from 'axios';
 
 const initialState = {
-	user: null,
-	isLoggedIn: false,
+	users: {
+		userId: localStorage.getItem('userId'),
+		nickname: localStorage.getItem('nickname'),
+	},
+	isLoading: false,
+	error: null,
 };
 
+export const __login = createAsyncThunk('user/login', async (payload, thunkAPI) => {
+	try {
+		const data = await userAPI.post('/users', payload);
+		// 로그인이 성공하면 서버에서 받은 데이터를 반환
+		return thunkAPI.fulfillWithValue(data);
+	} catch (error) {
+		return thunkAPI.rejectWithValue(error);
+	}
+});
+
+// slice 생성
 const AuthSlice = createSlice({
-	name: 'auth',
+	name: 'users',
 	initialState,
 	reducers: {
-		login(state, action) {
-			// 액션 객체에 로그인에 필요한 사용자 정보가 payload로 전달
-			const user = action.payload;
-			state.user = user;
-			state.isLoggedIn = true;
+		login: (state, action) => {
+			state.users = action.payload;
 		},
-		logout(state) {
-			state.user = null;
-			state.isLoggedIn = false;
+		logout: (state) => {
+			state.users = null;
 		},
-		// 회원가입 처리 역할
-		register(state, action) {
-			const user = action.payload;
-			state.user = user;
-			// 회원 가입 후 사용자를 로그인 상태로 설정함
-			state.isLoggedIn = true;
-		},
+	},
+	extraReducers: (builder) => {
+		builder
+			.addCase(__login.pending, (state) => {
+				state.isLoading = true;
+				state.error = null; // 요청이 시작되면 에러를 초기화합니다.
+			})
+			.addCase(__login.fulfilled, (state, action) => {
+				state.isLoading = false;
+				state.users = action.payload;
+			})
+			.addCase(__login.rejected, (state, action) => {
+				state.isLoading = false;
+				state.error = action.error.message;
+			});
 	},
 });
 
-export const { login, logout, register } = AuthSlice.actions;
+export const authReducer = AuthSlice.reducer;
+
+export const { login, logout } = AuthSlice.actions;
 export default AuthSlice.reducer;
