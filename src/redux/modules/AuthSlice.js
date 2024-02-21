@@ -57,7 +57,7 @@ const AuthSlice = createSlice({
 				state.error = null; // 요청이 시작되면 에러를 초기화합니다.
 			})
 			.addCase(__login.fulfilled, (state, action) => {
-				state.isLogin = false;
+				state.isLogin = true;
 				state.users = action.payload;
 			})
 			.addCase(__login.rejected, (state, action) => {

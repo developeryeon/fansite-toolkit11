@@ -10,7 +10,6 @@ import EditProfile from '../pages/EditProfile';
 import { useSelector } from 'react-redux';
 
 function Router() {
-	// const [isLogin, setIsLogin] = useState(false);
 	const isLogin = useSelector((state) => state.AuthSlice.isLogin);
 	return (
 		<BrowserRouter>

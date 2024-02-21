@@ -3,24 +3,32 @@ import { useDispatch } from 'react-redux';
 import { __login } from '../redux/modules/AuthSlice';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { toast } from 'react-toastify';
+import useForm from '../hooks/useForm';
 
 export default function Login() {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	const [loginInfo, setLoginInfo] = useState({
+	// const [isLoginMode, setIsLoginMode] = useState(true);
+	// const [loginInfo, setLoginInfo] = useState({
+	// 	id: '',
+	// 	password: '',
+	// });
+
+	const { loginInfo, handleChange, resetForm } = useForm({
 		id: '',
 		password: '',
 	});
 
 	const { id, password } = loginInfo;
 
-	const handleChange = (e) => {
-		const { name, value } = e.target;
-		setLoginInfo((prevState) => ({
-			...prevState,
-			[name]: value,
-		}));
-	};
+	// const handleChange = (e) => {
+	// 	const { name, value } = e.target;
+	// 	setLoginInfo((prevState) => ({
+	// 		...prevState,
+	// 		[name]: value,
+	// 	}));
+	// };
 
 	const loginUser = async (e) => {
 		e.preventDefault();
@@ -28,16 +36,16 @@ export default function Login() {
 
 		try {
 			const response = await dispatch(__login(loginInfo));
-			alert('로그인 하셨습니다.');
 			const { success, userId, accessToken, nickname } = response.payload;
 			if (success) {
-				console.log('로그인 성공!');
 				localStorage.setItem('userId', userId);
 				localStorage.setItem('accessToken', accessToken);
 				localStorage.setItem('nickname', nickname);
+				toast.success('로그인 성공!');
 				navigate('/'); // 비밀번호가 맞으면 홈 화면
 			} else {
-				alert('비밀번호가 일치하지 않습니다.');
+				toast.error('비밀번호가 일치하지 않습니다.');
+				resetForm();
 			}
 		} catch (error) {
 			console.error('로그인 에러:', error);
@@ -76,7 +84,7 @@ const Container = styled.div`
 
 const Title = styled.h1`
 	font-size: 33px;
-	margin-bottom: 36px;
+	margin-bottom: 60px;
 	color: #fff;
 `;
 
