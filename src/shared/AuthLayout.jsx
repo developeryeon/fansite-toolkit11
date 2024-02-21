@@ -4,11 +4,14 @@ import { Navigate, Outlet } from 'react-router-dom';
 
 export default function AuthLayout() {
 	const auth = useSelector((state) => state.AuthSlice.users);
-	const token = localStorage.getItem('accessToken');
+	console.log('auth/token test : ', auth);
 
-	if (!token) {
-		return <Navigate to={'/login'} />;
-	}
+	// 사용자 인증 여부
+	const isAuthenticated = () => {
+		const token = localStorage.getItem('accessToken');
+		return !token;
+	};
+
 	if (!auth) {
 		return <Navigate to={'/signup'} />;
 	}
@@ -16,6 +19,7 @@ export default function AuthLayout() {
 	return (
 		<>
 			<Outlet />
+			{/* return isAuthenticated() ? <Outlet /> : <Navigate to="/signup" />; */}
 		</>
 	);
 }

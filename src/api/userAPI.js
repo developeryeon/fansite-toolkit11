@@ -1,10 +1,10 @@
 import axios from 'axios';
 
 const userAPI = axios.create({
-	// baseURL: process.env.REACT_APP_BASE_SERVER_URL,
-	baseURL: process.env.REACT_APP_BASE_SERVER_URL,
+	baseURL: process.env.REACT_APP_BASE_URL,
 });
 
+// 요청 보내기 전
 userAPI.interceptors.request.use(
 	function (config) {
 		console.log('user 요청 성공!!', config);
@@ -16,6 +16,7 @@ userAPI.interceptors.request.use(
 	}
 );
 
+//오류 요청 보내기 전
 userAPI.interceptors.response.use(
 	function (response) {
 		console.log('user 응답 받았어!!', response);

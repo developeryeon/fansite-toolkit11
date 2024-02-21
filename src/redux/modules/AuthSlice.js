@@ -12,11 +12,24 @@ const initialState = {
 	error: null,
 };
 
+//로그인 요청
 export const __login = createAsyncThunk('users/login', async (payload, thunkAPI) => {
 	try {
-		const { data } = await userAPI.post('/login?expiresIn=1h', payload);
-		// 로그인이 성공하면 서버에서 받은 데이터를 반환
-		return thunkAPI.fulfillWithValue(data.data);
+		const { data } = await userAPI.post('/login', payload);
+		console.log(data);
+		return thunkAPI.fulfillWithValue(data);
+		// 왜 data.data => data로 바꾸니까 갑자기 error가 없어졌지?
+	} catch (error) {
+		return thunkAPI.rejectWithValue(error);
+	}
+});
+
+// 회원가입 요청
+export const __register = createAsyncThunk('users/register', async (payload, thunkAPI) => {
+	try {
+		const { data } = await userAPI.post('/register', payload);
+		console.log(data);
+		return thunkAPI.fulfillWithValue(data);
 	} catch (error) {
 		return thunkAPI.rejectWithValue(error);
 	}
@@ -27,9 +40,9 @@ const AuthSlice = createSlice({
 	name: 'users',
 	initialState,
 	reducers: {
-		// login: (state, action) => {
-		// 	state.users = action.payload;
-		// },
+		login: (state, action) => {
+			state.users = action.payload;
+		},
 		logout: (state) => {
 			state.users = null;
 		},
@@ -54,5 +67,5 @@ const AuthSlice = createSlice({
 
 export const authReducer = AuthSlice.reducer;
 
-export const { login, logout } = AuthSlice.actions;
+export const { login, logout, register } = AuthSlice.actions;
 export default AuthSlice.reducer;

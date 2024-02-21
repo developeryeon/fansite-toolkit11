@@ -21,7 +21,7 @@ export default function EditDetail() {
 	};
 
 	const homeBtnClickHandler = () => {
-		navigate('/');
+		navigate('/home');
 		window.location.reload();
 	};
 

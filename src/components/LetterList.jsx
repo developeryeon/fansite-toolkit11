@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import LetterCard from './LetterCard';
 import Form from './Form';
 import styled from 'styled-components';
 
 export default function LetterList() {
+	const navigate = useNavigate();
 	const [comment, setComment] = useState([]);
-	const [selectedMember, setSelectedMember] = useState('유재석');
 
 	const onSubmitHandler = (e) => {
 		e.preventDefault();
@@ -31,20 +31,29 @@ export default function LetterList() {
 	};
 
 	useEffect(() => {
-		const data = JSON.parse(localStorage.getItem('comments')) || []; // 로컬 스토리지에서 'comments' 키의 값을 가져와서 파싱, 값이 없으면 빈 배열을 사용
-		// const data = JSON.parse(localStorage.getItem('comments')) || fakeData; // 로컬 스토리지에서 'comments' 키의 값을 가져와서 파싱, 값이 없으면 빈 배열을 사용
+		const data = JSON.parse(localStorage.getItem('comments')) || [];
 
 		setComment(data);
 	}, []);
+
+	const handleCardClick = (id) => {
+		navigate(`/detail/${id}`);
+	};
+
 	return (
 		<SectionList>
 			<Form onSubmitHandler={onSubmitHandler} />
 			<ListWrapper>
 				{comment.map((card) => (
+					<div key={card.id} onClick={() => handleCardClick(card.id)}>
+						<LetterCard id={card.id} nickname={card.nickname} createdAt={card.createdAt} writedTo={card.writedTo} content={card.content} />
+					</div>
+				))}
+				{/* {comment.map((card) => (
 					<Link to={`detail/${card.id}`} key={card.id}>
 						<LetterCard id={card.id} nickname={card.nickname} createdAt={card.createdAt} writedTo={card.writedTo} content={card.content} />
 					</Link>
-				))}
+				))} */}
 			</ListWrapper>
 		</SectionList>
 	);
