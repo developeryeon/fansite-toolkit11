@@ -9,7 +9,7 @@ const initialState = {
 		avatar: localStorage.getItem('avatar'),
 		accessToken: localStorage.getItem('accessToken'),
 	},
-	isLoading: false,
+	isLogin: false,
 	error: null,
 };
 
@@ -37,19 +37,6 @@ export const __register = createAsyncThunk('users/register', async (payload, thu
 });
 
 // 프로필
-export const userData = () => async (dispatch, getState) => {
-	try {
-		const accessToken = getState('/users').users.accessToken;
-		const response = await userAPI.get('/users', {
-			headers: {
-				Authorization: `Bearer ${accessToken}`,
-			},
-		});
-		dispatch({ type: 'USER_DATA_SUCCESS', payload: response.data });
-	} catch (error) {
-		dispatch({ type: 'USER_DATA_FAILED', payload: error.message });
-	}
-};
 
 // slice 생성
 const AuthSlice = createSlice({
@@ -66,15 +53,15 @@ const AuthSlice = createSlice({
 	extraReducers: (builder) => {
 		builder
 			.addCase(__login.pending, (state) => {
-				state.isLoading = true;
+				state.isLogin = true;
 				state.error = null; // 요청이 시작되면 에러를 초기화합니다.
 			})
 			.addCase(__login.fulfilled, (state, action) => {
-				state.isLoading = false;
+				state.isLogin = false;
 				state.users = action.payload;
 			})
 			.addCase(__login.rejected, (state, action) => {
-				state.isLoading = false;
+				state.isLogin = false;
 				state.error = action.payload.response.data.message;
 			});
 	},

@@ -28,14 +28,14 @@ export default function Login() {
 
 		try {
 			const response = await dispatch(__login(loginInfo));
-			console.log('로그인 response : ', response);
+			alert('로그인 하셨습니다.');
 			const { success, userId, accessToken, nickname } = response.payload;
 			if (success) {
 				console.log('로그인 성공!');
 				localStorage.setItem('userId', userId);
 				localStorage.setItem('accessToken', accessToken);
 				localStorage.setItem('nickname', nickname);
-				navigate('/home'); // 비밀번호가 맞으면 홈 화면
+				navigate('/'); // 비밀번호가 맞으면 홈 화면
 			} else {
 				alert('비밀번호가 일치하지 않습니다.');
 			}

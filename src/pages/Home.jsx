@@ -7,7 +7,6 @@ export default function Home() {
 	return (
 		<div>
 			<Header />
-			<Profile />
 			<LetterList />
 		</div>
 	);

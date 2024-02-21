@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+// import {deleteLetter, editLetter} from "redux/modules/letterSlice";
 
 export default function Detail() {
 	const { id } = useParams();
