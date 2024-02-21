@@ -6,6 +6,8 @@ import Detail from '../pages/Detail';
 import EditDetail from '../pages/EditDetail';
 import SignUp from '../pages/SignUp';
 import AuthLayout from './AuthLayout';
+import Profile from '../pages/Profile';
+import EditProfile from '../pages/EditProfile';
 
 function Router() {
 	return (
@@ -17,6 +19,8 @@ function Router() {
 					<Route path="/home" element={<Home />} />
 					<Route path="detail/:id" element={<Detail />} />
 					<Route path="editdetail/:id" element={<EditDetail />} />
+					<Route path="/profile" element={<Profile />} />
+					<Route path="/editprofile" element={<EditProfile />} />
 				</Route>
 				<Route path="*" element={<Navigate replace to="/" />} />
 			</Routes>

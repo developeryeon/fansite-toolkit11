@@ -1,7 +1,6 @@
 import userAPI from '../api/userAPI';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import { __register } from '../redux/modules/AuthSlice';
 import { useState } from 'react';
 
 function SignUp() {
@@ -13,7 +12,7 @@ function SignUp() {
 		nickname: '',
 	});
 
-	const { id, password, nickname } = signupInfo;
+	// const { id, password, nickname } = signupInfo;
 
 	const onChangeHandler = (e) => {
 		const { name, value } = e.target;
@@ -32,9 +31,7 @@ function SignUp() {
 				password: password.value,
 				nickname: nickname.value,
 			});
-			// localStorage.setItem('id', id.value);
-			// localStorage.setItem('password', password.value);
-			// localStorage.setItem('nickname', nickname.value);
+
 			console.log('회원가입 response : ', data);
 			navigate('/login');
 		} catch (error) {

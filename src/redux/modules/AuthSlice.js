@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import userAPI from '../../api/userAPI';
+import { useDispatch } from 'react-redux';
 
 const initialState = {
 	users: {
@@ -35,6 +36,21 @@ export const __register = createAsyncThunk('users/register', async (payload, thu
 	}
 });
 
+// 프로필
+export const userData = () => async (dispatch, getState) => {
+	try {
+		const accessToken = getState('/users').users.accessToken;
+		const response = await userAPI.get('/users', {
+			headers: {
+				Authorization: `Bearer ${accessToken}`,
+			},
+		});
+		dispatch({ type: 'USER_DATA_SUCCESS', payload: response.data });
+	} catch (error) {
+		dispatch({ type: 'USER_DATA_FAILED', payload: error.message });
+	}
+};
+
 // slice 생성
 const AuthSlice = createSlice({
 	name: 'users',
@@ -59,7 +75,6 @@ const AuthSlice = createSlice({
 			})
 			.addCase(__login.rejected, (state, action) => {
 				state.isLoading = false;
-				// state.error = action.error.message;
 				state.error = action.payload.response.data.message;
 			});
 	},
