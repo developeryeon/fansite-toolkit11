@@ -7,9 +7,9 @@ const initialState = {
 		userId: localStorage.getItem('userId'),
 		nickname: localStorage.getItem('nickname'),
 		avatar: localStorage.getItem('avatar'),
-		accessToken: localStorage.getItem('accessToken'),
+		// accessToken: localStorage.getItem('accessToken'),
 	},
-	isLogin: false,
+	isLogin: !!localStorage.getItem('accessToken'),
 	error: null,
 };
 
@@ -19,7 +19,6 @@ export const __login = createAsyncThunk('users/login', async (payload, thunkAPI)
 		const { data } = await userAPI.post('/login', payload);
 		console.log(data);
 		return thunkAPI.fulfillWithValue(data);
-		// 왜 data.data => data로 바꾸니까 갑자기 error가 없어졌지?
 	} catch (error) {
 		return thunkAPI.rejectWithValue(error);
 	}
@@ -36,8 +35,6 @@ export const __register = createAsyncThunk('users/register', async (payload, thu
 	}
 });
 
-// 프로필
-
 // slice 생성
 const AuthSlice = createSlice({
 	name: 'users',
@@ -47,18 +44,28 @@ const AuthSlice = createSlice({
 			state.users = action.payload;
 		},
 		logout: (state) => {
-			state.users = null;
+			// state.users = null;
+			localStorage.removeItem('userId');
+			localStorage.removeItem('nickname');
+			localStorage.removeItem('avatar');
+			localStorage.removeItem('accessToken');
+			state.users = {};
+			state.isLogin = false;
 		},
 	},
 	extraReducers: (builder) => {
 		builder
 			.addCase(__login.pending, (state) => {
 				state.isLogin = true;
-				state.error = null; // 요청이 시작되면 에러를 초기화합니다.
+				state.error = null;
 			})
 			.addCase(__login.fulfilled, (state, action) => {
 				state.isLogin = true;
 				state.users = action.payload;
+				const { userId, accessToken, nickname } = action.payload;
+				localStorage.setItem('userId', userId);
+				localStorage.setItem('accessToken', accessToken);
+				localStorage.setItem('nickname', nickname);
 			})
 			.addCase(__login.rejected, (state, action) => {
 				state.isLogin = false;

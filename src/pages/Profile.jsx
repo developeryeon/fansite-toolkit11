@@ -5,20 +5,6 @@ import { useSelector } from 'react-redux';
 
 function Profile() {
 	const navigate = useNavigate();
-	// const accessToken = useSelector((state) => state.users.accessToken);
-
-	// const userData = async () => {
-	// 	try {
-	// 		const response = await userAPI.get('/', {
-	// 			headers: {
-	// 				Authorization: `Bearer ${accessToken}`,
-	// 			},
-	// 		});
-	// 		console.log(response.data);
-	// 	} catch (error) {
-	// 		console.error('error accessToken data : ', error);
-	// 	}
-	// };
 
 	const editProfileHandler = () => {
 		navigate('/editprofile');
