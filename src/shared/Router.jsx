@@ -11,7 +11,7 @@ import { useSelector } from 'react-redux';
 import Layout from '../components/common/Layout';
 
 function Router() {
-	const isLogin = useSelector((state) => state.AuthSlice.isLogin);
+	const isLogin = useSelector((state) => state.authReducer.isLogin);
 	return (
 		<BrowserRouter>
 			<Routes>

@@ -4,19 +4,12 @@ import { configureStore, combineReducers } from '@reduxjs/toolkit';
 
 const rootReducer = combineReducers({
 	CardSlice,
+	auth: AuthSlice.reducer,
 	authReducer,
 });
 
 const store = configureStore({
 	reducer: rootReducer,
 });
-
-// const store = configureStore({
-// 	reducer: { CardSlice, AuthSlice },
-// 	middleware: (getDefaultMiddleware) =>
-// 		getDefaultMiddleware({
-// 			serializableCheck: false,
-// 		}),
-// });
 
 export default store;
