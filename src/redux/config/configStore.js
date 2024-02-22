@@ -4,7 +4,6 @@ import { configureStore, combineReducers } from '@reduxjs/toolkit';
 
 const rootReducer = combineReducers({
 	CardSlice,
-	auth: AuthSlice.reducer,
 	authReducer,
 });
 
