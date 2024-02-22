@@ -1,5 +1,4 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { logout } from '../../redux/modules/AuthSlice';
 import styled from 'styled-components';
@@ -8,12 +7,6 @@ function Layout() {
 	// const isLogin = useSelector((state) => state.users.isLogin);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-
-	// useEffect(() => {
-	// 	if (!isLogin) {
-	// 		navigate('/login');
-	// 	}
-	// }, [isLogin, navigate]);
 
 	return (
 		<>
