@@ -1,12 +1,38 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
-export default function Form({ onSubmitHandler }) {
+export default function Form() {
+	const dispatch = useDispatch();
+	const { avatar, nickname } = useSelector((state) => state.auth);
+
+	const onSubmitHandler = (e) => {
+		e.preventDefault();
+
+		const createdAt = new Date().toLocaleString();
+		const nickname = e.target.nickname.value;
+		const content = e.target.content.value;
+		const writedTo = e.target.writedTo.value;
+
+		if (!nickname || !content) {
+			return null;
+		}
+
+		const commentObj = { id: crypto.randomUUID(), createdAt, nickname, content, writedTo };
+
+		if (commentObj) {
+			setComment([commentObj, ...comment]);
+			localStorage.setItem('comments', JSON.stringify([commentObj, ...comment]));
+		}
+
+		e.target.reset();
+	};
 	return (
 		<FormContainer onSubmit={onSubmitHandler}>
 			<FormInput>
 				<FormLabel>닉네임</FormLabel>
-				<UserID type="text" placeholder="닉네임을 적어보세요" maxLength={10} name="nickname"></UserID>
+				<p>{nickname}</p>
+				{/* <UserID type="text" placeholder="닉네임을 적어보세요" maxLength={10} name="nickname"></UserID> */}
 			</FormInput>
 			<FormInput>
 				<FormLabel>내용</FormLabel>
