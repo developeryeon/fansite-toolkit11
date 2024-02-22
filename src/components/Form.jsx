@@ -3,11 +3,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 export default function Form({ onSubmitHandler }) {
+	const nickname = useSelector((state) => state.authReducer.users.nickname);
+	console.log(nickname);
 	return (
 		<FormContainer onSubmit={onSubmitHandler}>
 			<FormInput>
 				<FormLabel>닉네임</FormLabel>
-				<UserID type="text" placeholder="닉네임을 적어보세요" maxLength={10} name="nickname"></UserID>
+				<p>{nickname}</p>
+				{/* <UserID type="text" placeholder="닉네임을 적어보세요" maxLength={10} name="nickname"></UserID> */}
 			</FormInput>
 			<FormInput>
 				<FormLabel>내용</FormLabel>
