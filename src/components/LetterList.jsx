@@ -8,27 +8,27 @@ export default function LetterList() {
 	const navigate = useNavigate();
 	const [comment, setComment] = useState([]);
 
-	// const onSubmitHandler = (e) => {
-	// 	e.preventDefault();
+	const onSubmitHandler = (e) => {
+		e.preventDefault();
 
-	// 	const createdAt = new Date().toLocaleString();
-	// 	const nickname = e.target.nickname.value;
-	// 	const content = e.target.content.value;
-	// 	const writedTo = e.target.writedTo.value;
+		const createdAt = new Date().toLocaleString();
+		const nickname = e.target.nickname.value;
+		const content = e.target.content.value;
+		const writedTo = e.target.writedTo.value;
 
-	// 	if (!nickname || !content) {
-	// 		return null;
-	// 	}
+		if (!nickname || !content) {
+			return null;
+		}
 
-	// 	const commentObj = { id: crypto.randomUUID(), createdAt, nickname, content, writedTo };
+		const commentObj = { id: crypto.randomUUID(), createdAt, nickname, content, writedTo };
 
-	// 	if (commentObj) {
-	// 		setComment([commentObj, ...comment]);
-	// 		localStorage.setItem('comments', JSON.stringify([commentObj, ...comment]));
-	// 	}
+		if (commentObj) {
+			setComment([commentObj, ...comment]);
+			localStorage.setItem('comments', JSON.stringify([commentObj, ...comment]));
+		}
 
-	// 	e.target.reset();
-	// };
+		e.target.reset();
+	};
 
 	useEffect(() => {
 		const data = JSON.parse(localStorage.getItem('comments')) || [];
