@@ -1,10 +1,10 @@
 import CardSlice from '../modules/CardSlice';
-import AuthSlice from '../modules/AuthSlice';
+import AuthSlice, { authReducer } from '../modules/AuthSlice';
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
 
 const rootReducer = combineReducers({
 	CardSlice,
-	AuthSlice,
+	authReducer,
 });
 
 const store = configureStore({

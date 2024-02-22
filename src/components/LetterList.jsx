@@ -42,7 +42,6 @@ export default function LetterList() {
 
 	return (
 		<SectionList>
-			{/* <Form onSubmitHandler={onSubmitHandler} /> */}
 			<Form onSubmitHandler={onSubmitHandler} />
 			<ListWrapper>
 				{comment.map((card) => (
