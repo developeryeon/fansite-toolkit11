@@ -1,17 +1,17 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import { Navigate, Outlet } from 'react-router-dom';
+// import React from 'react';
+// import { useSelector } from 'react-redux';
+// import { Navigate, Outlet } from 'react-router-dom';
 
-export default function AuthLayout() {
-	const auth = useSelector((state) => state.AuthSlice.users);
+// export default function AuthLayout() {
+// 	const auth = useSelector((state) => state.AuthSlice.users);
 
-	if (!auth) {
-		return <Navigate to={'/signup'} />;
-	}
+// 	if (!auth) {
+// 		return <Navigate to={'/signup'} />;
+// 	}
 
-	return (
-		<>
-			<Outlet />
-		</>
-	);
-}
+// 	return (
+// 		<>
+// 			<Outlet />
+// 		</>
+// 	);
+// }

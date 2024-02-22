@@ -8,6 +8,7 @@ import SignUp from '../pages/SignUp';
 import Profile from '../pages/Profile';
 import EditProfile from '../pages/EditProfile';
 import { useSelector } from 'react-redux';
+import Layout from '../components/common/Layout';
 
 function Router() {
 	const isLogin = useSelector((state) => state.AuthSlice.isLogin);
@@ -15,20 +16,20 @@ function Router() {
 		<BrowserRouter>
 			<Routes>
 				{isLogin ? (
-					<>
+					<Route element={<Layout />}>
 						<Route path="/" element={<Home />} />
 						<Route path="detail/:id" element={<Detail />} />
 						<Route path="editdetail/:id" element={<EditDetail />} />
 						<Route path="/profile" element={<Profile />} />
 						<Route path="/editprofile" element={<EditProfile />} />
 						<Route path="*" element={<Navigate replace to="/" />} />
-					</>
+					</Route>
 				) : (
-					<>
+					<Route>
 						<Route path="/login" element={<Login />} />
 						<Route path="/signup" element={<SignUp />} />
 						<Route path="*" element={<Navigate replace to="/login" />} />
-					</>
+					</Route>
 				)}
 			</Routes>
 		</BrowserRouter>

@@ -13,11 +13,24 @@ const initialState = {
 	error: null,
 };
 
-//로그인 요청
-export const __login = createAsyncThunk('users/login', async (payload, thunkAPI) => {
+export const __editProfile = createAsyncThunk('editProfile', async (formData, thunkAPI) => {
 	try {
-		const { data } = await userAPI.post('/login', payload);
-		console.log(data);
+		const { data } = await userAPI.patch('/profile', formData, {
+			headers: {
+				'Content-Type': 'multipart/form-data',
+			},
+		});
+		return data;
+	} catch (error) {
+		return thunkAPI.rejectWithValue(error);
+	}
+});
+
+//로그인 요청
+export const __login = createAsyncThunk('users/login', async ({ id, password }, thunkAPI) => {
+	try {
+		const { data } = await userAPI.post('/login?expiresIn=10s', { id, password });
+		console.log('로그인 요청 : ', data);
 		return thunkAPI.fulfillWithValue(data);
 	} catch (error) {
 		return thunkAPI.rejectWithValue(error);
@@ -28,7 +41,7 @@ export const __login = createAsyncThunk('users/login', async (payload, thunkAPI)
 export const __register = createAsyncThunk('users/register', async (payload, thunkAPI) => {
 	try {
 		const { data } = await userAPI.post('/register', payload);
-		console.log(data);
+		console.log('회원가입 요청 : ', data);
 		return thunkAPI.fulfillWithValue(data);
 	} catch (error) {
 		return thunkAPI.rejectWithValue(error);
@@ -60,15 +73,22 @@ const AuthSlice = createSlice({
 				state.error = null;
 			})
 			.addCase(__login.fulfilled, (state, action) => {
-				state.isLogin = true;
-				state.users = action.payload;
-				const { userId, accessToken, nickname } = action.payload;
+				// state.isLogin = true;
+				// state.users = action.payload;
+				const { userId, accessToken, nickname, avatar } = action.payload;
 				localStorage.setItem('userId', userId);
 				localStorage.setItem('accessToken', accessToken);
 				localStorage.setItem('nickname', nickname);
+				localStorage.setItem('avatar', avatar);
+				state.isLogin = true;
+				state.avatar = avatar;
+				state.nickname = nickname;
+				state.userId = userId;
+				state.isLoading = false;
 			})
 			.addCase(__login.rejected, (state, action) => {
 				state.isLogin = false;
+				state.isLoading = false;
 				state.error = action.payload.response.data.message;
 			});
 	},
