@@ -2,40 +2,43 @@ import userAPI from '../api/userAPI';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 
 function SignUp() {
 	const navigate = useNavigate();
+	const [id, setId] = useState('');
+	const [password, setPassword] = useState('');
+	const [nickname, setNickname] = useState('');
 
-	const [signupInfo, setSignupInfo] = useState({
-		id: '',
-		password: '',
-		nickname: '',
-	});
+	const idInputHandler = (e) => {
+		const { value } = e.target;
+		setId(value);
+	};
 
-	// const { id, password, nickname } = signupInfo;
+	const pwdInputHandler = (e) => {
+		const { value } = e.target;
+		setPassword(value);
+	};
 
-	const onChangeHandler = (e) => {
-		const { name, value } = e.target;
-		setSignupInfo((prevState) => ({
-			...prevState,
-			[name]: value,
-		}));
+	const nicknameInputHandler = (e) => {
+		const { value } = e.target;
+		setNickname(value);
 	};
 
 	const joinUsHandler = async (e) => {
 		e.preventDefault();
 		try {
-			const { id, password, nickname } = e.target;
-			const { data } = await userAPI.post('/register', {
-				id: id.value,
-				password: password.value,
-				nickname: nickname.value,
-			});
+			// 유효성 검사
+			if (id.length < 4 || id.length > 10 || password.length < 4 || password.length > 15 || nickname.length < 1 || nickname.length > 10) {
+				console.error('아이디는 4~10글자, 비밀번호는 4~15글자, 닉네임은 1~10글자여야 합니다.');
+				return;
+			}
 
-			console.log('회원가입 response : ', data);
+			const response = await userAPI.post('/register', { id, password, nickname });
+			console.log('회원가입 요청 : ', response);
 			navigate('/login');
 		} catch (error) {
-			console.error('sign-up 에러에요!');
+			toast(error.response.data.message);
 		}
 	};
 
@@ -48,13 +51,13 @@ function SignUp() {
 			<Title>JOIN</Title>
 			<Form onSubmit={joinUsHandler}>
 				<div>
-					<Input type="text" name="id" value={signupInfo.id} onChange={onChangeHandler} placeholder="아이디 4~10글자를 입력해주세요." minLength={4} maxLength={10} />
+					<Input type="text" name="id" value={id} onChange={idInputHandler} placeholder="아이디 4~10글자를 입력해주세요." minLength={4} maxLength={10} />
 				</div>
 				<div>
-					<Input type="password" name="password" value={signupInfo.password} onChange={onChangeHandler} placeholder="비밀번호 4~15글자를 입력해주세요." minLength={4} maxLength={15} />
+					<Input type="password" name="password" value={password} onChange={pwdInputHandler} placeholder="비밀번호 4~15글자를 입력해주세요." minLength={4} maxLength={15} />
 				</div>
 				<div>
-					<Input type="text" name="nickname" value={signupInfo.nickname} onChange={onChangeHandler} placeholder="닉네임 1~10글자를 입력해주세요." minLength={1} maxLength={10} />
+					<Input type="text" name="nickname" value={nickname} onChange={nicknameInputHandler} placeholder="닉네임 1~10글자를 입력해주세요." minLength={1} maxLength={10} />
 				</div>
 				<ButtonWrapper>
 					<Button type="submit">회원가입 완료</Button>

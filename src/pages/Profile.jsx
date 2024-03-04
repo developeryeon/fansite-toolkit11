@@ -45,19 +45,12 @@ export default function Profile() {
 		<>
 			<ProfileWrapper>
 				<Title>프로필 관리</Title>
-				{/* <label>
-					<Avatar src={profileData.avatar} size="large" id="imgInput" />
-					<input onChange={previewImg} type="file" accept="image/*" />
-				</label> */}
-				{/* {isEditing ? <input name="editing" maxLength={10} placeholder="최대 10글자 가능" autoFocus defaultValue={profileData.nickname} onChange={(event) => setEditingNickname(event.target.value)} /> : <Nickname>{profileData.nickname}</Nickname>} */}
 				{isEditing ? <input name="editing" maxLength={10} placeholder="최대 10글자 가능" autoFocus /> : <Nickname></Nickname>}
 				<button onClick={editProfileHandler}>수정하기</button>
-				{/* <Id>{profileData.id}</Id> */}
 				<BtnsWrapper>
 					{isEditing ? (
 						<>
 							<Button text="취소" onClick={() => setIsEditing(false)} />
-							{/* <Button text="수정완료" onClick={onEditDone} disabled={!editingNickname && !imgFile} /> */}
 							<Button text="수정완료" onClick={onEditDone} />
 						</>
 					) : (

@@ -1,7 +1,10 @@
 import axios from 'axios';
 
 const userAPI = axios.create({
-	baseURL: process.env.REACT_APP_BASE_URL,
+	baseURL: 'https://moneyfulpublicpolicy.co.kr',
+	headers: {
+		'Content-Type': 'application/json',
+	},
 });
 
 // 요청 보내기 전
@@ -23,8 +26,15 @@ userAPI.interceptors.response.use(
 		return response;
 	},
 	function (error) {
-		console.log('user 응답 에러!', error);
-		return Promise.reject(error);
+		if (error.response) {
+			// 서버가 응답하지 않은 경우
+			console.log('user 응답 에러!', error.response);
+			return Promise.reject(error);
+		} else if (error.message) {
+			// 에러 메시지 출력
+			console.log('user 응답 에러!', error.message);
+			return Promise.reject(error);
+		}
 	}
 );
 
