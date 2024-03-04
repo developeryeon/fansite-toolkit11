@@ -12,9 +12,9 @@ export default function LetterList() {
 		e.preventDefault();
 
 		const createdAt = new Date().toLocaleString();
-		const nickname = e.target.nickname.value;
-		const content = e.target.content.value;
-		const writedTo = e.target.writedTo.value;
+		const nickname = e.target[0].value;
+		const content = e.target[1].value;
+		const writedTo = e.target[2].value;
 
 		if (!nickname || !content) {
 			return null;
